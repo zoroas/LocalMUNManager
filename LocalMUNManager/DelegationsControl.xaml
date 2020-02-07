@@ -1,0 +1,308 @@
+﻿<myTypes:BaseControl x:Class="LocalMUNManager.DelegationsControl"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LocalMUNManager"
+        xmlns:myTypes="clr-namespace:LocalMUNManager"
+        xmlns:model="clr-namespace:IMUNModel;assembly=IMUNModel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        Height="700" 
+        Width="1200">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Setter Property="Margin" Value="12,6,12,8"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter  Property="FontSize" Value="14"/>
+                <Setter  Property="BorderThickness" Value="0"/>
+            </Style>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="270"/>
+            <RowDefinition Height="247*"/>
+            <RowDefinition Height="183*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="36"/>
+            <ColumnDefinition Width="505*"/>
+            <ColumnDefinition Width="286*"/>
+            <ColumnDefinition Width="106*"/>
+            <ColumnDefinition Width="303*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button 
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            Grid.Column="0"
+            x:Name="BtBack1"
+            Margin="0,12,0,107"
+            Click="BtBack_Click"
+            Padding="0" 
+            Height="36" 
+            Grid.RowSpan="2" 
+            VerticalAlignment="Top"
+            >
+            <Viewbox 
+                Margin="4"
+                Width="28" Height="28">
+                <Canvas Width="24" Height="24">
+                    <Path Data="M13,22L3,12L13,2V8H21V16H13V22M6,12L11,17V14H19V10H11V7L6,12Z" Fill="White" />
+                </Canvas>
+            </Viewbox>
+        </Button>
+
+
+        <materialDesign:Card                 
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="6,24,0,24" 
+            Grid.RowSpan="1"
+            Grid.ColumnSpan="1" VerticalAlignment="Stretch" >
+            <StackPanel >
+                <TextBlock
+                    Style="{DynamicResource MaterialDesignTitleTextBlock}"
+                    Margin="12,18,0,0"
+                    Text="School"
+                    />
+                <UniformGrid Columns="2">
+                    <TextBox
+                        x:Name="TbSchool" 
+                        IsReadOnly="True"
+                        materialDesign:HintAssist.Hint="School"
+                        materialDesign:HintAssist.IsFloating="True"
+                        />
+                    <Rectangle Width="0"></Rectangle>
+                    <TextBox
+                        x:Name="TbSCRequests" 
+                        IsReadOnly="True"
+                        materialDesign:HintAssist.Hint="Number of Sec. Council Delegates"
+                        materialDesign:HintAssist.IsFloating="True"
+                        />
+                    <TextBox
+                        x:Name="TbICJJudgesRequests" 
+                        materialDesign:HintAssist.Hint="Number of ICJ Judges"
+                        materialDesign:HintAssist.IsFloating="True"
+                        IsReadOnly="True"
+                        />
+                    <TextBox
+                        x:Name="TbNumberOfStudentsGAAndSpecConf" 
+                        materialDesign:HintAssist.Hint="Number of GA and Spec Conf"
+                        materialDesign:HintAssist.IsFloating="True"
+                        IsReadOnly="True"
+                        />
+                    <TextBox
+                        x:Name="TbICJAdvocatesRequests" 
+                        materialDesign:HintAssist.Hint="Number of ICJ Advocates"
+                        materialDesign:HintAssist.IsFloating="True"
+                        IsReadOnly="True"
+                        />
+                </UniformGrid>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <materialDesign:Card 
+            Margin="24,12,12,12"
+            Grid.Column="2"
+            Grid.Row="0" 
+            Grid.RowSpan="3"                
+            VerticalAlignment="Stretch" 
+            Grid.ColumnSpan="1" >
+            <Canvas MinHeight="246">
+                <TextBlock
+                    Style="{DynamicResource MaterialDesignTitleTextBlock}"
+                    Margin="12,18"
+                    Text="Available Delegations"
+                    />
+                <ListView
+                    x:Name="LvAvailableDelegations"
+                    materialDesign:ListViewAssist.ListViewItemPadding="12"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    HorizontalAlignment="Stretch" 
+                    Height="594" 
+                    Canvas.Left="12" 
+                    Canvas.Top="48" 
+                    Width="228"
+                    >
+                    <ListView.Resources>
+
+                    <DataTemplate DataType="{x:Type model:DelegationWithEmbassy}">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse
+                                    Visibility="{Binding IsSecurityCouncil, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Width="25"
+                                    Height="25"
+                                    Fill="DarkGreen"/>
+                                <TextBlock 
+                                    Margin="6,0,0,0"
+                                    Foreground="Blue"
+                                    Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type model:DelegationWithoutEmbassy}">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse
+                                    Visibility="{Binding IsSecurityCouncil, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Width="25"
+                                    Height="25"
+                                    Fill="Blue"
+                                    />
+                                <TextBlock 
+                                    Text="{Binding Name}" 
+                                    Margin="6,0,0,0"
+                                    Foreground="Black"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.Resources>
+
+
+                </ListView>
+            </Canvas>
+        </materialDesign:Card>
+
+        <materialDesign:Card 
+            Margin="12,12,12,12"
+            Grid.Column="4"
+            Grid.Row="0" 
+            Grid.RowSpan="3"                
+            VerticalAlignment="Stretch" >
+            <Canvas MinHeight="246">
+                <TextBlock
+                    Style="{DynamicResource MaterialDesignTitleTextBlock}"
+                    Margin="12,18"
+                    Text="Assigned Delegations"
+                    />
+                <ListView
+                    x:Name="LvAssignedDelegations"
+                    materialDesign:ListViewAssist.ListViewItemPadding="12"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    HorizontalAlignment="Stretch" Height="594" 
+                    Canvas.Left="12" Canvas.Top="48" Width="245">
+
+                    <ListView.Resources>
+
+                        <DataTemplate DataType="{x:Type model:DelegationWithEmbassy}">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse
+                                    Visibility="{Binding IsSecurityCouncil, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Width="25"
+                                    Height="25"
+                                    Fill="DarkGreen"
+                                    />
+                                <TextBlock 
+                                    Foreground="Blue"
+                                    Margin="6,0,0,0"
+                                    Text="{Binding Name}" 
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type model:DelegationWithoutEmbassy}">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse
+                                    Visibility="{Binding IsSecurityCouncil, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Width="25"
+                                    Height="25"
+                                    Fill="DarkGreen"
+                                    />
+                                <TextBlock Text="{Binding Name}" 
+                                    Foreground="Black"
+                                    Margin="6,0,0,0"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.Resources>
+
+
+                </ListView>
+            </Canvas>
+        </materialDesign:Card>
+
+        <materialDesign:Card 
+            Margin="6,12,0,24" 
+            Grid.Column="1"
+            Grid.Row="0" 
+            Grid.RowSpan="1"                
+            VerticalAlignment="Stretch" >
+            <Canvas>
+                <TextBlock
+                    Style="{DynamicResource MaterialDesignTitleTextBlock}"
+                    Margin="12,18"
+                    Text="Schools"
+                    />
+                <ListView
+                    x:Name="LvSchools"
+                    materialDesign:ListViewAssist.ListViewItemPadding="12"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    SelectionChanged="LvSchools_SelectionChanged" 
+                     Canvas.Left="12" Canvas.Top="48" Width="405" Height="164"
+                    />
+            </Canvas>
+        </materialDesign:Card>
+
+        <StackPanel
+            Grid.Column="3"
+            Grid.Row="1">
+            <Button 
+                Height="60"
+                x:Name="ButtonMoveRight"
+                Click="ButtonMoveRight_Click"
+                Margin="0,24">
+                <Viewbox Width="48" Height="48">
+                    <Canvas Width="24" Height="24">
+                        <Path Data="M11,16H3V8H11V2L21,12L11,22V16M13,7V10H5V14H13V17L18,12L13,7Z" 
+                              Fill="White" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
+            <Button 
+                Height="60"
+                x:Name="ButtonMoveLeft"
+                Click="ButtonMoveLeft_Click"
+                Margin="0,24">
+                <Viewbox Width="48" Height="48">
+                    <Canvas Width="24" Height="24">
+                        <Path Data="M13,22L3,12L13,2V8H21V16H13V22M6,12L11,17V14H19V10H11V7L6,12Z" 
+                              Fill="White" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
+
+        </StackPanel>
+        <materialDesign:Card                 
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="6,24,0,12" 
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="1" VerticalAlignment="Stretch" >
+
+            <StackPanel>
+                <Label 
+                    Content="With Embassy" 
+                    FontSize="16"
+                    Margin="6"
+                    Foreground="Blue" 
+                    FontWeight="Bold"
+                    />
+                <Label 
+                    Content="Without Embassy" 
+                    Foreground="Black"
+                    Margin="6"
+                    FontSize="16" 
+                    FontWeight="Bold"
+                    />
+                <Label 
+                    Content="Security Council" 
+                    Foreground="DarkGreen"
+                    Margin="6"
+                    FontSize="16" 
+                    FontWeight="Bold"
+                    />
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</myTypes:BaseControl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,13 @@ namespace LocalMUNManager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class BaseWindow : Window
     {
-        public MainWindow()
+        public BaseWindow()
         {
             InitializeComponent();
+            this.PanelPresenter.Content = new LoginControl(this);
         }
+
     }
 }
