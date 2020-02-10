@@ -25,8 +25,8 @@ namespace LocalMUNManager
     /// </summary>
     public partial class ParticipantsControl : BaseControl
     {
-        ObservableCollection<School> obsSchool;
-        ObservableCollection<Card> obsParticipants;
+        readonly ObservableCollection<School> obsSchool;
+        readonly ObservableCollection<Card> obsParticipants;
 
         public ParticipantsControl(BaseWindow window) : base(window)
         {
@@ -56,7 +56,7 @@ namespace LocalMUNManager
 
         private void RefreshParticipants()
         {
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
+            //String serverRoot = Properties.Settings.Default.ServerRootPath;
             List<Card> cards = new List<Card>();
             foreach(School school in School.GetAllSchools(ApplicationSettings.LocalRoot))
             {
@@ -154,7 +154,14 @@ namespace LocalMUNManager
             }
         }
 
+
+
         private void BtSearchSchool_Click(object sender, RoutedEventArgs e)
+        {
+            SearchBySchool();
+        }
+
+        private void SearchBySchool()
         {
             try
             {
@@ -251,6 +258,19 @@ namespace LocalMUNManager
                 return;
             Card card = (Card)(this.LvParticipants.SelectedItem);
             this.SetContent(new EditParticipantControl(this.BaseWindow, card));
+        }
+
+        private void TbName_KeyUp(object sender, KeyEventArgs e)
+        {
+            String name = this.TbName.Text.Trim();
+            if (!String.IsNullOrEmpty(name))
+                SearchByName(name);
+                
+        }
+
+        private void CbSchools_KeyUp(object sender, KeyEventArgs e)
+        {
+            SearchBySchool();
         }
     }
 }
