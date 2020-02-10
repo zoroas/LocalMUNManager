@@ -121,21 +121,6 @@ namespace LocalMUNManager
             this.SetContent(new HomeControl(this.BaseWindow));
         }
 
-        private void TbUser_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //User school = obsSchool.FirstOrDefault(x => x.Username.Equals(this.TbUser.Text));
-            //if (school == null)
-            //{
-            //    this.BtCreate.Content = "Create";
-            //    return;
-            //}
-            //else
-            //{
-            //    this.BtCreate.Content = "Update School";
-
-            //}
-        }
-
         private void BtSearchName_Click(object sender, RoutedEventArgs e)
         {
             SearchByName(this.TbName.Text);
@@ -153,9 +138,7 @@ namespace LocalMUNManager
                 this.obsParticipants.Add(c);
             }
         }
-
-
-
+               
         private void BtSearchSchool_Click(object sender, RoutedEventArgs e)
         {
             SearchBySchool();
@@ -245,11 +228,6 @@ namespace LocalMUNManager
 
             this.ImgCard.Source = new BitmapImage(
                 new Uri(card.LocalPicturePath));
-        }
-
-        private void BtCreateCards(object sender, RoutedEventArgs e)
-        {
-           
         }
 
         private void BtEdit_Click(object sender, RoutedEventArgs e)
