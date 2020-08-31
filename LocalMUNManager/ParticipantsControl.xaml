@@ -78,7 +78,8 @@
                         Grid.Column="1"
                         x:Name="TbName" 
                         materialDesign:HintAssist.Hint="Name"
-                        materialDesign:HintAssist.IsFloating="True"
+                        materialDesign:HintAssist.IsFloating="True" KeyUp="TbName_KeyUp"
+                        
                         />
                     <Button
                         Grid.Column="2"
@@ -102,7 +103,8 @@
                         materialDesign:HintAssist.Hint="School"
                         materialDesign:HintAssist.IsFloating="True"
                         Grid.Column="1"
-                        Grid.Row="1"
+                        Grid.Row="1" KeyUp="CbSchools_KeyUp"
+                        
                         />
                     <Button
                         Grid.Column="2"

@@ -28,20 +28,27 @@ namespace LocalMUNManager
         public HomeControl(BaseWindow parent) : base(parent)
         {
             InitializeComponent();
-            ApplicationSettings.LocalRoot = @"\\caislvs-005\\C$\\inetpub\\wwwroot\\WebMUN\\data";
+            ApplicationSettings.LocalRoot = @"\\caislvs-005\\Mun data";
             parent.Title = "Home";
         }
 
         private void BtSchools_Click(object sender, RoutedEventArgs e)
         {
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
-            if (!Directory.Exists(serverRoot))
+            try
             {
-                System.Windows.MessageBox.Show("Invalid server folder. Please change settings");
+                String serverRoot = Properties.Settings.Default.ServerRootPath;
+                if (!Directory.Exists(serverRoot))
+                {
+                    System.Windows.MessageBox.Show("Invalid server folder. Please change settings");
+                }
+                else
+                {
+                    this.SetContent(new SchoolsControl(this.BaseWindow));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                this.SetContent(new SchoolsControl(this.BaseWindow));
+                System.Windows.MessageBox.Show("" + ex.Message);
             }
         }
 
