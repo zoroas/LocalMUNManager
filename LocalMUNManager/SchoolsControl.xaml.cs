@@ -53,7 +53,7 @@ namespace LocalMUNManager
             this.TbNumberOfStudentsGAAndSpecConf.Text = "0";
             this.ComboStatus.ItemsSource = new SchoolStatus[]
             {
-                SchoolStatus.SUBMITTED, SchoolStatus.ACCEPTED, SchoolStatus.REJECTED
+                SchoolStatus.SUBMITTED, SchoolStatus.ACCEPTED, SchoolStatus.REJECTED, SchoolStatus.ON_STANDBY
             };
             this.RefreshSchools();
         }
