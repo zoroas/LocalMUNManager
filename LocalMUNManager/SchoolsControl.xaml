@@ -166,16 +166,16 @@
                         />
 
                     <TextBox
-                        x:Name="TbICJJudgesRequests" 
-                        materialDesign:HintAssist.Hint="No. of ICJ Judges"
+                        x:Name="TbChairs" 
+                        materialDesign:HintAssist.Hint="No. of Chairs"
                         materialDesign:HintAssist.IsFloating="True"
                         Grid.Row="3"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         />
                     <TextBox
-                        x:Name="TbICJAdvocatesRequests" 
-                        materialDesign:HintAssist.Hint="No. of ICJ Advocates"
+                        x:Name="TbHSC" 
+                        materialDesign:HintAssist.Hint="No. of HSC"
                         materialDesign:HintAssist.IsFloating="True"
                         Grid.Row="4"
                         Grid.Column="0"

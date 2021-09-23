@@ -36,7 +36,9 @@ namespace LocalMUNManager
             this.obsParticipants = new ObservableCollection<Card>();
             this.CbSchools.ItemsSource = obsSchool;
             this.LvParticipants.ItemsSource = obsParticipants;
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+           // String serverRoot = Properties.Settings.Default.ServerRootPath;
             if (!Directory.Exists(serverRoot))
             {
                 throw new Exception("Invalid server path");
@@ -47,6 +49,8 @@ namespace LocalMUNManager
 
         private void RefreshSchools()
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             this.obsSchool.Clear();
             foreach (School s in School.GetAllSchools(ApplicationSettings.LocalRoot))
             {
@@ -56,7 +60,9 @@ namespace LocalMUNManager
 
         private void RefreshParticipants()
         {
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+//            String serverRoot = Properties.Settings.Default.ServerRootPath;
             List<Card> cards = new List<Card>();
             foreach(School school in School.GetAllSchools(ApplicationSettings.LocalRoot))
             {
@@ -74,7 +80,9 @@ namespace LocalMUNManager
 
         private void SaveSchools()
         {
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+//            String serverRoot = Properties.Settings.Default.ServerRootPath;
             String usersFilePath = serverRoot + "/users.json";
             using (StreamWriter file = File.CreateText(usersFilePath))
             {
@@ -92,6 +100,8 @@ namespace LocalMUNManager
         {
             try
             {
+                String serverRoot = @"\\caislvs-005\MUN data\";
+                ApplicationSettings.LocalRoot = serverRoot;
                 Card card = obsParticipants.FirstOrDefault(x => x.Fullname.Equals(this.TbName.Text));
                 if (card == null)
                 {
@@ -102,7 +112,7 @@ namespace LocalMUNManager
                 bool? result = new MyDialog(message).ShowDialog();
                 if (result == true)
                 {
-                    String serverRoot = Properties.Settings.Default.ServerRootPath;
+                    //String serverRoot = Properties.Settings.Default.ServerRootPath;
                     this.obsParticipants.Remove(card);
                     card.Delete(ApplicationSettings.LocalRoot);
                 }
@@ -145,6 +155,8 @@ namespace LocalMUNManager
 
         private void SearchByName(String name)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             List<Card> cards = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x => x.FirstName.ToLower().Contains(name.ToLower()) |
                                                           x.LastName.ToLower().Contains(name.ToLower())).ToList();
             this.obsParticipants.Clear();
@@ -166,6 +178,8 @@ namespace LocalMUNManager
                 {
                     School school = (School)(this.CbSchools.SelectedItem);
                     this.obsParticipants.Clear();
+                    String serverRoot = @"\\caislvs-005\MUN data\";
+                    ApplicationSettings.LocalRoot = serverRoot;
                     foreach (Card c in school.GetCardsList(ApplicationSettings.LocalRoot))
                     {
                         this.obsParticipants.Add(c);
@@ -187,6 +201,8 @@ namespace LocalMUNManager
                 }
                 else
                 {
+                    String serverRoot = @"\\caislvs-005\MUN data\";
+                    ApplicationSettings.LocalRoot = serverRoot;
                     List<Card> list = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x => x.Country.ToLower().Contains(delegation.ToLower())).ToList();
                     this.obsParticipants.Clear();
                     foreach (Card c in list)
@@ -202,6 +218,8 @@ namespace LocalMUNManager
 
         private void BtSearchForum_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             try
             {
                 String forum = this.TbForum.Text;

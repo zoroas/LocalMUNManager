@@ -35,7 +35,10 @@ namespace LocalMUNManager
             window.Title = "Delegations";
             this.obsSchool = new ObservableCollection<School>();
             this.LvSchools.ItemsSource = this.obsSchool;
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
+//            String serverRoot = Properties.Settings.Default.ServerRootPath;
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
             if (!Directory.Exists(serverRoot))
             {
                 throw new Exception("Invalid server path");
@@ -46,6 +49,9 @@ namespace LocalMUNManager
 
         private void RefreshSchools()
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
             this.obsSchool.Clear();
             foreach (School s in School.GetAllSchools(ApplicationSettings.LocalRoot))
             {
@@ -70,6 +76,10 @@ namespace LocalMUNManager
 //            this.TbICJAdvocatesRequests.Text = "" + school.NrICJAdvocatesRequested;
             this.TbSCRequests.Text = "" + school.NrOfSecCouncilRequested;
             this.TbNumberOfStudentsGAAndSpecConf.Text = "" + school.NrOfStudentsGAAndSpecConf;
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
             this.LvAssignedDelegations.ItemsSource = school.GetDelegationsObj(ApplicationSettings.LocalRoot);
            
         }
@@ -79,6 +89,9 @@ namespace LocalMUNManager
             if (this.LvSchools.SelectedItems == null ||
                 this.LvSchools.SelectedItems.Count != 1)
                 return;
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
 
             School school = (School)(this.LvSchools.SelectedItem);
 
@@ -114,6 +127,9 @@ namespace LocalMUNManager
             {
                 school.RemoveDelegation(delegation);
             }
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
 
             school.Save(ApplicationSettings.LocalRoot);
 

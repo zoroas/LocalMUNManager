@@ -33,12 +33,26 @@ namespace LocalMUNManager
         public SchoolsControl(BaseWindow window) : base(window)
         {
             InitializeComponent();
+
             window.Title = "Schools";
             this.obsSchool = new ObservableCollection<School>();
             this.obsCards = new ObservableCollection<Card>();
             this.LvSchools.ItemsSource = this.obsSchool;
             this.LvParticipants.ItemsSource = this.obsCards;
-            String serverRoot = ApplicationSettings.LocalRoot;
+            //   String serverRoot = ApplicationSettings.LocalRoot;
+            //
+            // String serverRoot = Properties.Settings.Default.ServerRootPath;
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
+
+
+            //            if (serverRoot == null || serverRoot.Equals(""))
+            //          {
+            //        }
+
+
             if (!Directory.Exists(serverRoot))
             {
                 throw new Exception("Invalid server path");
@@ -46,8 +60,8 @@ namespace LocalMUNManager
 
             this.TbSecurityCouncil.ItemsSource = new int[] { 0, 1, 2 };
             this.TbSecurityCouncil.SelectedIndex = 0;
-            this.TbICJAdvocatesRequests.Text = "0";
-            this.TbICJJudgesRequests.Text = "0";
+            this.TbHSC.Text = "0";
+            this.TbChairs.Text = "0";
             this.TbTotal.Text = "0";
             this.TbNumberOfPress.Text = "0";
             this.TbNumberOfStudentsGAAndSpecConf.Text = "0";
@@ -60,6 +74,8 @@ namespace LocalMUNManager
 
         private void RefreshSchools()
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             this.obsSchool.Clear();
             School[] schools = School.GetAllSchools(ApplicationSettings.LocalRoot);
             foreach (School s in schools)
@@ -71,12 +87,14 @@ namespace LocalMUNManager
 
         private void RefreshParticipants()
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             School school = School.GetSchool(ApplicationSettings.LocalRoot, this.LvSchools.Text.Trim());
             this.TbPassword.Text = school == null ? "" : school.Password;
             this.TbAddress.Text = school == null ? "" : school.Address;
             this.TbEmail.Text = school == null ? "" : school.Email;
-            this.TbICJJudgesRequests.Text = school == null ? "" : "" + school.NrICJJudgesRequested;
-            this.TbICJAdvocatesRequests.Text = school == null ? "" : "" + school.NrICJAdvocatesRequested;
+            this.TbHSC.Text = school == null ? "" : "" + school.NrOfHistoricalSecCouncilRequests;
+            this.TbChairs.Text = school == null ? "" : "" + school.NrChairsRequested;
             this.TbNumberOfStudentsGAAndSpecConf.Text = school == null ? "" : "" + school.NrOfStudentsGAAndSpecConf;
             this.TbSecurityCouncil.Text = school == null ? "" : "" + school.NrOfSecCouncilRequested;
             this.TbPhone.Text = school == null ? "" : school.DirectorPhone;
@@ -101,14 +119,20 @@ namespace LocalMUNManager
 
         private void BtCreate_Click(object sender, RoutedEventArgs e)
         {
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
             String schoolName = this.LvSchools.Text.Trim();
             if (String.IsNullOrEmpty(schoolName)) return;
 
             String password;
             String address;
             String email;
-            int nrICJJudgesRequested;
-            int nrICJAdvocatesRequested;
+            //int nrICJJudgesRequested;
+            //int nrICJAdvocatesRequested;
+            int nrHSC;
+            int nrChairs;
             int nrNumberOfStudentsGAAndSpecConf;
             int nrSCRequested;
             int nrDirectors;
@@ -123,8 +147,8 @@ namespace LocalMUNManager
                 password = this.TbPassword.Text.Trim();
                 address = this.TbAddress.Text.Trim();
                 email = this.TbEmail.Text.Trim();
-                nrICJJudgesRequested = int.Parse(this.TbICJJudgesRequests.Text.Trim());
-                nrICJAdvocatesRequested = int.Parse(this.TbICJAdvocatesRequests.Text.Trim());
+                nrHSC = int.Parse(this.TbHSC.Text.Trim());
+                nrChairs = int.Parse(this.TbChairs.Text.Trim());
                 nrNumberOfStudentsGAAndSpecConf = int.Parse(this.TbNumberOfStudentsGAAndSpecConf.Text.Trim());
                 nrSCRequested = int.Parse(this.TbSecurityCouncil.Text.Trim());
                 nrPress = int.Parse(this.TbNumberOfPress.Text.Trim());
@@ -150,6 +174,7 @@ namespace LocalMUNManager
             }
             else
             {
+               
                 school = new School(schoolName, ApplicationSettings.LocalRoot);
                 this.obsSchool.Add(school);
             }
@@ -158,8 +183,8 @@ namespace LocalMUNManager
             school.Password = password;
             school.Address = address;
             school.Email = email;
-            school.NrICJJudgesRequested = nrICJJudgesRequested;
-            school.NrICJAdvocatesRequested = nrICJAdvocatesRequested;
+            school.NrChairsRequested = nrChairs;
+            school.NrOfHistoricalSecCouncilRequests = nrHSC;
             school.NrOfStudentsGAAndSpecConf = nrNumberOfStudentsGAAndSpecConf;
             school.NrOfSecCouncilRequested = nrSCRequested;
             school.NrPressRequests = nrPress;
@@ -179,6 +204,9 @@ namespace LocalMUNManager
         
         private void BtRemove_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
             try
             {
                 String schoolName = this.LvSchools.Text.Trim();
@@ -228,7 +256,11 @@ namespace LocalMUNManager
                 if (d.DialogResult != true)
                     return;
 
-                String tempPath = Properties.Settings.Default.ServerRootPath + @"\schools\templates\";
+                String serverRoot = @"\\caislvs-005\MUN data\";
+                ApplicationSettings.LocalRoot = serverRoot;
+//                String tempPath = Properties.Settings.Default.ServerRootPath + @"\schools\templates\";
+
+                String tempPath = ApplicationSettings.LocalRoot + @"\schools\templates\";
                 string[] lines = System.IO.File.ReadAllLines(tempPath + "emailtemplate1.txt");
                 String emailTemplate = "";
                 foreach (String line in lines)
@@ -282,13 +314,17 @@ namespace LocalMUNManager
 
             try
             {
+
+                String serverRoot = @"\\caislvs-005\MUN data\";
+                ApplicationSettings.LocalRoot = serverRoot;
+
                 School school = (School)(this.LvSchools.SelectedItem);
                 MyDialog d = new MyDialog("Do you want to send an email to " + school.MUNDirector + "?");
                 d.ShowDialog();
                 if (d.DialogResult != true)
                     return;
 
-                String tempPath = Properties.Settings.Default.ServerRootPath + @"\schools\templates\";
+                String tempPath = ApplicationSettings.LocalRoot + @"\schools\templates\";
                 string[] lines = System.IO.File.ReadAllLines(tempPath + "emailtemplate2.txt");
                 String emailTemplate = "";
                 foreach (String line in lines)

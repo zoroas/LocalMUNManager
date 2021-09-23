@@ -56,6 +56,10 @@ namespace LocalMUNManager
             this.TbFirstName.Text = card.FirstName;
             this.TbLastName.Text = card.LastName;
             this.TbDelegation.IsEnabled = true;
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
             String root = ApplicationSettings.LocalRoot;
             this.TbDelegation.ItemsSource = School.GetSchool(root, card.School).GetAvailableDelegationsForCard(root, card);
 
@@ -97,6 +101,10 @@ namespace LocalMUNManager
         private void RefreshSchools()
         {
             this.obsSchool.Clear();
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
             foreach (School s in School.GetAllSchools(ApplicationSettings.LocalRoot))
             {
                 this.obsSchool.Add(s);
@@ -161,7 +169,11 @@ namespace LocalMUNManager
                 currentCard.HasOpeningSpeach = (bool)(this.CheckBoxHasOpeningSpeach.IsChecked);
                 //currentCard.ServerBaseFolder = SERVER_BASE_FOLDER + school.Name;
 
-                String serverRoot = Properties.Settings.Default.ServerRootPath;
+
+                String serverRoot = @"\\caislvs-005\MUN data\";
+                ApplicationSettings.LocalRoot = serverRoot;
+
+                // String serverRoot = Properties.Settings.Default.ServerRootPath;
                 // Retrieve the name of the file that is posted.
                 //string strFileName = photoPath.Name;
                 //strFileName = System.IO.Path.GetFileName(strFileName);
@@ -194,10 +206,14 @@ namespace LocalMUNManager
             {
                 this.TbDelegation.IsEnabled = true;
                 School school = (School)(this.CbSchools.SelectedItem);
-                string dir = Properties.Settings.Default.ServerRootPath;
+
+                String serverRoot = @"\\caislvs-005\MUN data\";
+                ApplicationSettings.LocalRoot = serverRoot;
+
+                //string dir = Properties.Settings.Default.ServerRootPath;
 
                 List<Delegation> delegations = school.GetAvailableDelegationsObj(ApplicationSettings.LocalRoot).ToList();
-                Card card = Card.GetCard(dir + @"\schools\" + school.Name + @"\" , this.TbFirstName.Text, this.TbLastName.Text);
+                Card card = Card.GetCard(serverRoot + @"\schools\" + school.Name + @"\" , this.TbFirstName.Text, this.TbLastName.Text);
                 if (card != null)
                 {
                     delegations.Add(Delegation.GetDelegation(ApplicationSettings.LocalRoot, card.Country));

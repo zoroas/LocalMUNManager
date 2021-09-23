@@ -34,20 +34,32 @@ namespace LocalMUNManager
 
         private void BtSchools_Click(object sender, RoutedEventArgs e)
         {
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
-            if (!Directory.Exists(serverRoot))
+
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
+
+//            String serverRoot = Properties.Settings.Default.ServerRootPath;
+            try
             {
-                System.Windows.MessageBox.Show("Invalid server folder. Please change settings");
+                if (!Directory.Exists(serverRoot))
+                {
+                    System.Windows.MessageBox.Show("Invalid server folder. Please change settings");
+                }
+                else
+                {
+                    this.SetContent(new SchoolsControl(this.BaseWindow));
+                }
             }
-            else
+            catch(Exception ex)
             {
-                this.SetContent(new SchoolsControl(this.BaseWindow));
+                MessageBox.Show(ex.Message + "\r\n" + serverRoot);
             }
         }
 
         private void BtParticipants_Click(object sender, RoutedEventArgs e)
         {
-            String serverRoot = Properties.Settings.Default.ServerRootPath;
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             if (!Directory.Exists(serverRoot))
             {
                 MessageBox.Show("Invalid server folder. Please change settings");

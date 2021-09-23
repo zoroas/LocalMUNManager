@@ -112,6 +112,8 @@ namespace LocalMUNManager
 
         private void BtDelegates_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             Card[] cards = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x =>
                 x.Forum.Equals("General Assembly Delegate") ||
                 x.Forum.Equals("Special Conference Delegate") ||
@@ -127,6 +129,8 @@ namespace LocalMUNManager
 
         private void BtPress_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             Card[] cards = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x =>
                 x.IsPress).ToArray();
             School current = GetCurrentSchool();
@@ -137,6 +141,8 @@ namespace LocalMUNManager
 
         private void BtAdmin_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             Card[] cards = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x =>
                 x.IsAdmin).ToArray();
             School current = GetCurrentSchool();
@@ -147,6 +153,8 @@ namespace LocalMUNManager
 
         private void BtOfficer_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             Card[] cards = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x =>
                            x.IsOfficer).ToArray();
             School current = GetCurrentSchool();
@@ -157,6 +165,8 @@ namespace LocalMUNManager
 
         private void BtDirector_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             Card[] cards = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x =>
        //         x.IsChaperone ||
                 x.IsDirector
@@ -179,12 +189,16 @@ namespace LocalMUNManager
 
         private void RBGenerateOneSchool_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             this.CbSchool.Visibility = Visibility.Visible;
             this.CbSchool.ItemsSource = School.GetAllSchools(ApplicationSettings.LocalRoot);
         }
 
         private void BtCertificates_Click(object sender, RoutedEventArgs e)
         {
+            String serverRoot = @"\\caislvs-005\MUN data\";
+            ApplicationSettings.LocalRoot = serverRoot;
             Card[] cards = Card.GetAllCards(ApplicationSettings.LocalRoot).Where(x=> 
                                     x.IsDirector == false &&
                                     x.IsOfficer == false).ToArray();
